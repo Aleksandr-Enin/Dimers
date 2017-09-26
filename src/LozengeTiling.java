@@ -8,7 +8,7 @@ public class LozengeTiling {
     int n, m;
     int [][] lattice;
     Random random;
-    double T = 10;
+    double T = 30;
     double averageHeight = 0;
     double volumeSquared = 0;
     double dispersion = 0;
