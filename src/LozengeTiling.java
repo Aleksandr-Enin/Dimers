@@ -69,7 +69,7 @@ public class LozengeTiling {
 
     void sample()
     {
-        int height = 1;
+        int height = 0;
         int heightSquared = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
