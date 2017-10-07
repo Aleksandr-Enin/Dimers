@@ -12,6 +12,18 @@ public class LozengeTiling {
     double averageHeight = 0;
     double volumeSquared = 0;
     double dispersion = 0;
+    double [][] averageConfiguration;
+
+    public int[][] getAverageConfiguration() {
+        int [][] t = new int[averageConfiguration.length][];
+        for (int i = 0; i < averageConfiguration.length; i++) {
+            t[i] = new int[averageConfiguration[i].length];
+            for (int j = 0; j < t.length; j++) {
+                t[i][j] = (int) averageConfiguration[i][j];
+            }
+        }
+        return t;
+    }
 
     public LozengeTiling(double weight, int n, int m) {
         this.weight = weight;
@@ -82,6 +94,7 @@ public class LozengeTiling {
         //        System.out.print(lattice[i][j] + " ");
                 height += lattice[i][j];
                 heightSquared += lattice[i][j]*lattice[i][j];
+                averageConfiguration[i][j] += lattice[i][j];
             }
         //    System.out.println();
         }
@@ -123,6 +136,7 @@ public class LozengeTiling {
         averageHeight = 0;
         volumeSquared = 0;
         dispersion = 0;
+        averageConfiguration = new double[n][n];
     }
 
     public void changeTemperature(double T) {
@@ -133,5 +147,10 @@ public class LozengeTiling {
         averageHeight = averageHeight/iterations;
         volumeSquared = volumeSquared/iterations;
         dispersion = volumeSquared - averageHeight*averageHeight;
+        for (int i = 0; i < n ;i++) {
+            for (int j = 0; j < n; j++) {
+                averageConfiguration[i][j] /= iterations;
+            }
+        }
     }
 }
