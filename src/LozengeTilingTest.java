@@ -52,21 +52,32 @@ public class LozengeTilingTest {
         for (int i =0; i<n ;i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < n; k++) {
-                    E = E + (Math.exp(-(i+j+k+2)/T)*(i+j+k+2))/(1 - Math.exp(-(i+j+k+2)/T)) - (Math.exp(-(i+j+k+1)/T)*(i+j+k+1))/(1 - Math.exp(-(i+j+k+1)/T)) ;
+                    E = E + (Math.exp((i+j+k+2)/T)*(i+j+k+2))/(1 - Math.exp((i+j+k+2)/T)) - (Math.exp((i+j+k+1)/T)*(i+j+k+1))/(1 - Math.exp((i+j+k+1)/T)) ;
                 }
             }
         }
-        return -E;
+        return -E/(n*n);
     }
 
     @org.junit.Test
     public void anotherTest() throws Exception {
-        //test.changeTemperature(50);
+        //test.changeTemperature(2);
         //test.metropolis(10);
         //System.out.println(test.averageHeight);
-        System.out.println(partition(30, 50));
-        System.out.println(averageEnergy(30,50));
+        //System.out.println(partition(30, 50));
+        for (int i =0; i<100; i++)
+            System.out.println(0.2 + i/10 + " " + averageEnergy(30, 0.2+i/10));
+        //System.out.println(averageEnergy(30,2)/900);
     }
 
-
+    @org.junit.Test
+    public void asdasd() {
+        double t = 0.5;
+        for (int i =0; i<10 ;i++) {
+            t = 10.5 + i*10;
+            test.changeTemperature(t);
+            test.metropolis(50);
+            System.out.println(t  + " " + test.averageHeight + " " + averageEnergy(30, t));
+        }
+    }
 }

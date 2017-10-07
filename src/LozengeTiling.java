@@ -18,11 +18,15 @@ public class LozengeTiling {
         this.n = n;
         this.m = m;
         this.lattice = new int[n][m];
-        lattice[0][0] = 0;
-        for (int i = 0; i < n ; i++)
+        for (int i = 0; i < n ; i++) {
             for (int j = 0; j < m; j++) {
                 lattice[i][j] = 0;
             }
+        }
+        for (int i = 0; i< n; i++) {
+            lattice[i][n-1] = 1;
+            lattice[n-1][i] = 1;
+        }
         lattice[n-1][n-1] = n;
         random = new Random();
         averageHeight = 0;
@@ -30,6 +34,8 @@ public class LozengeTiling {
 
     boolean isCorrect() {
         if (lattice[0][0] != 0 || lattice[n - 1][n - 1] != n) return false;
+        if (lattice[n-1][0] == 0 || lattice[0][n-1]==0) return false;
+        if (lattice[n-1][0] == n || lattice[0][n-1] == n) return false;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if ((j < m - 1 && lattice[i][j] > lattice[i][j + 1]) || (i < n - 1 && lattice[i][j] > lattice[i + 1][j]) || lattice[i][j] < 0) {
@@ -80,7 +86,7 @@ public class LozengeTiling {
         //    System.out.println();
         }
         //System.out.println("");
-        averageHeight += height/(m*n);
+        averageHeight += ((double) height)/(m*n);
         volumeSquared += heightSquared/(m*n);
     }
 
@@ -100,12 +106,12 @@ public class LozengeTiling {
     {
         int i, j;
         initializeSample();
-        for (int t =0; t < 100000; t++) {
+        for (int t =0; t < 1000000; t++) {
             changeConfiguration();
         }
         for (int k = 0; k < iterations; k++)
         {
-            for (int t =0; t < 10000; t++) {
+            for (int t =0; t < 100; t++) {
                 changeConfiguration();
             }
             sample();
