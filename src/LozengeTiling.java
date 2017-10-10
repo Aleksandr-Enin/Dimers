@@ -13,16 +13,26 @@ public class LozengeTiling {
     double volumeSquared = 0;
     double dispersion = 0;
     double [][] averageConfiguration;
+    double [][] correlators;
 
     public int[][] getAverageConfiguration() {
-        int [][] t = new int[averageConfiguration.length][];
-        for (int i = 0; i < averageConfiguration.length; i++) {
-            t[i] = new int[averageConfiguration[i].length];
+        return arrayToInt(averageConfiguration);
+    }
+
+    public double[][] getCorrelations() {
+        return correlators;
+    }
+
+    private int[][] arrayToInt(double [][] array) {
+        int [][] t = new int[array.length][];
+        for (int i = 0; i < array.length; i++) {
+            t[i] = new int[array[i].length];
             for (int j = 0; j < t.length; j++) {
-                t[i][j] = (int) averageConfiguration[i][j];
+                t[i][j] = (int) array[i][j];
             }
         }
         return t;
+
     }
 
     public LozengeTiling(double weight, int n, int m) {
@@ -95,6 +105,7 @@ public class LozengeTiling {
                 height += lattice[i][j];
                 heightSquared += lattice[i][j]*lattice[i][j];
                 averageConfiguration[i][j] += lattice[i][j];
+                correlators[i][j] += lattice[n/2][n/2]*lattice[i][j];
             }
         //    System.out.println();
         }
@@ -119,7 +130,7 @@ public class LozengeTiling {
     {
         int i, j;
         initializeSample();
-        for (int t =0; t < 1000000; t++) {
+        for (int t =0; t < n*n*n*1000; t++) {
             changeConfiguration();
         }
         for (int k = 0; k < iterations; k++)
@@ -137,6 +148,7 @@ public class LozengeTiling {
         volumeSquared = 0;
         dispersion = 0;
         averageConfiguration = new double[n][n];
+        correlators = new double[n][n];
     }
 
     public void changeTemperature(double T) {
@@ -150,6 +162,13 @@ public class LozengeTiling {
         for (int i = 0; i < n ;i++) {
             for (int j = 0; j < n; j++) {
                 averageConfiguration[i][j] /= iterations;
+            }
+        }
+
+        for (int i =0; i< n; i++) {
+            for (int j =0; j< n; j++) {
+                correlators[i][j] /= iterations;
+                correlators[i][j] -= averageConfiguration[i][j]*averageConfiguration[n/2][n/2];
             }
         }
     }

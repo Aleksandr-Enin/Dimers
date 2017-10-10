@@ -120,6 +120,8 @@ class GraphicPanel extends JPanel {
     public void paintComponent(Graphics g) {
 
         SIZE = (super.getWidth()/(2*lattice.length));
+        SIZE = (SIZE % 2 == 0) ? SIZE : SIZE-1;
+
         XSIZE = (int)(SIZE*sqrt(3)/2);
 
         x = super.getWidth()/2;

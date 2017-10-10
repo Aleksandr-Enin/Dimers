@@ -12,4 +12,14 @@ public class Main {
             LozengePlot.saveImage(lattice.getAverageConfiguration(), "T" + t);
         }
     }
+
+    public static void scalingLimit(int iterations){
+        for (int n = 10; n <= 50; n+=10) {
+            LozengeTiling tiling = new LozengeTiling(1,n,n);
+            tiling.changeTemperature(80);
+            tiling.metropolis(iterations);
+            System.out.println(n);
+            LozengePlot.saveImage(tiling.getAverageConfiguration(), "n="+n);
+        }
+    }
 }
