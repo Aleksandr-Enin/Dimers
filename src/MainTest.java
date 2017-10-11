@@ -10,8 +10,15 @@ public class MainTest {
 
     @Test
     public void correlators() throws Exception {
-        LozengeTiling tiling = new LozengeTiling(1, 30, 30);
-        tiling.metropolis(50);
-        System.out.println(utils.arrayToString(tiling.getCorrelations()));
+        LozengeTiling tiling = new LozengeTiling(1, 50, 50);
+        tiling.changeTemperature(1000);
+        tiling.metropolis(1000000);
+        for (int i =0; i<50;i++) {
+            for (int j =0; j<50;j++) {
+                System.out.print(tiling.getCorrelations()[i][j] + " ");
+            }
+            System.out.println();
+        }
+        LozengePlot.saveImage(tiling.getAverageConfiguration(), "lowTemperature");
     }
 }

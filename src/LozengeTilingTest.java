@@ -1,15 +1,45 @@
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by Tector on 17.09.2017.
  */
 public class LozengeTilingTest {
+
     LozengeTiling test;
+
+    @Test
+    public void initialConfiguration(){
+        LozengePlot.saveImage(test.lattice,"initial");
+        test.changeTemperature(1000000);
+        test.metropolis(10000);
+        LozengePlot.saveImage(test.getAverageConfiguration(), "final");
+    }
+
+    @Test
+    public void getAverageConfiguration() throws Exception {
+    }
+
+    @Test
+    public void getCorrelations() throws Exception {
+    }
+
+    @Test
+    public void changeConfiguration() throws Exception {
+    }
+
+    @Test
+    public void sample() throws Exception {
+    }
+
+    @Test
+    public void changeTemperature() throws Exception {
+    }
 
     @Before
     public void initialize()
     {
-        test = new LozengeTiling(1,30,30);
+        test = new LozengeTiling(1,100,100);
     }
 
     @org.junit.Test

@@ -42,13 +42,13 @@ public class LozengeTiling {
         this.lattice = new int[n][m];
         for (int i = 0; i < n ; i++) {
             for (int j = 0; j < m; j++) {
-                lattice[i][j] = 0;
+                lattice[i][j] = (i+j)/2;
             }
         }
-        for (int i = 0; i< n; i++) {
-            lattice[i][n-1] = 1;
-            lattice[n-1][i] = 1;
-        }
+ /*       for (int i = 0; i< n; i++) {
+            lattice[i][n-1] = i+1;
+            lattice[n-1][i] = i+1;
+        }*/
         lattice[n-1][n-1] = n;
         random = new Random();
         averageHeight = 0;
@@ -84,15 +84,21 @@ public class LozengeTiling {
         int i = 0;
         int j = 0;
         do {
-            lattice[i][j] -= heightDifference;
             heightDifference = (random.nextBoolean() ? 1 : -1);
             i = random.nextInt(n);
             j = random.nextInt(m);
-            lattice[i][j] += heightDifference;
-        } while (!isCorrect());
-        if (random.nextDouble() <= Math.exp(heightDifference/T)) return;
-        lattice[i][j]-= heightDifference;
+        } while (!isCorrectChange(i,j,heightDifference));
+        if (random.nextDouble() < Math.exp(heightDifference/T)) {
+            lattice[i][j]+= heightDifference;
+        }
+    }
 
+    private boolean isCorrectChange(int i, int j, int heightDifference) {
+        if ((i==0 && j==0) || (i ==n-1 && j==n-1)) return false;
+        if ((i == n-1 && j==0) || (i==0 && j==n-1)) return false;
+        if ((j < n - 1 && lattice[i][j] + heightDifference > lattice[i][j + 1]) || (i < n - 1 && lattice[i][j] + heightDifference > lattice[i + 1][j]) || lattice[i][j] + heightDifference< 0) return false;
+        if ((j > 0 && lattice[i][j] + heightDifference < lattice[i][j - 1]) || (i > 0 && lattice[i][j] + heightDifference < lattice[i - 1][j]) || lattice[i][j] +heightDifference < 0) return false;
+        return true;
     }
 
     void sample()
@@ -130,9 +136,10 @@ public class LozengeTiling {
     {
         int i, j;
         initializeSample();
-        for (int t =0; t < n*n*n*1000; t++) {
+        for (int t =0; t < n*n*n*100; t++) {
             changeConfiguration();
         }
+        System.out.println("thermalization done") ;
         for (int k = 0; k < iterations; k++)
         {
             for (int t =0; t < 100; t++) {
