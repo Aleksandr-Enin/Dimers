@@ -95,7 +95,7 @@ public class LozengeTiling {
 
     private boolean isCorrectChange(int i, int j, int heightDifference) {
         if ((i==0 && j==0) || (i ==n-1 && j==n-1)) return false;
-        if ((i == n-1 && j==0) || (i==0 && j==n-1)) return false;
+        if (((i == n-1 && j==0) || (i==0 && j==n-1) && (lattice[i][j]+heightDifference ==n || lattice[i][j] + heightDifference == 0) )) return false;
         if ((j < n - 1 && lattice[i][j] + heightDifference > lattice[i][j + 1]) || (i < n - 1 && lattice[i][j] + heightDifference > lattice[i + 1][j]) || lattice[i][j] + heightDifference< 0) return false;
         if ((j > 0 && lattice[i][j] + heightDifference < lattice[i][j - 1]) || (i > 0 && lattice[i][j] + heightDifference < lattice[i - 1][j]) || lattice[i][j] +heightDifference < 0) return false;
         return true;
