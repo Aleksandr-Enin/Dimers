@@ -17,6 +17,11 @@ public class LozengeTilingTest {
     }
 
     @Test
+    public void giagonalCorrelators() throws Exception {
+
+    }
+
+    @Test
     public void getAverageConfiguration() throws Exception {
     }
 
@@ -39,7 +44,7 @@ public class LozengeTilingTest {
     @Before
     public void initialize()
     {
-        test = new LozengeTiling(1,100,100);
+        test = new LozengeTiling(1,30,30);
     }
 
     @org.junit.Test

@@ -1,5 +1,8 @@
 import org.junit.Test;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 import static org.junit.Assert.*;
 
 public class MainTest {
@@ -19,5 +22,21 @@ public class MainTest {
                 //System.out.println(Math.sqrt((i - tiling.n/2)*(i-tiling.n/2) + (i - tiling.n/2)*(i - tiling.n/2))+ " " + tiling.getCorrelations()[(tiling.n-1)-i][i]);
             }
         LozengePlot.saveImage(tiling.getAverageConfiguration(), "lowTemperature");
+    }
+
+    @Test
+    public void diagonalCorrelators() throws Exception {
+        LozengeTiling tiling = new LozengeTiling(1, 50, 50);
+        for (int t = 30; t< 400; t+=150) {
+            tiling.changeTemperature(t);
+            tiling.metropolis(10000000);
+            FileWriter fileWriter = new FileWriter(tiling.n + "_" + t + "_" + "Diagonal");
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            for (int i = 0; i < tiling.n;i++)
+            {
+                printWriter.println(((i - tiling.n/2)*(i-tiling.n/2) + (i - tiling.n/2)*(i - tiling.n/2))+ " " + tiling.getCorrelations()[i][i]);
+            }
+            printWriter.close();
+        }
     }
 }

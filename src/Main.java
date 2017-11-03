@@ -6,7 +6,7 @@ public class Main {
         for (int i =0; i<10 ;i++) {
             t = 10.5 + i*10;
             lattice.changeTemperature(t);
-            lattice.metropolis(50);
+            lattice.metropolis(10000000);
             //LozengePlot.plot(lattice.getAverageConfiguration(), "T" + t);
             System.out.println(t  + " " + lattice.averageHeight);
             LozengePlot.saveImage(lattice.getAverageConfiguration(), "T" + t);
@@ -19,7 +19,7 @@ public class Main {
             tiling.changeTemperature(80);
             tiling.metropolis(iterations);
             System.out.println(n);
-            LozengePlot.saveImage(tiling.getAverageConfiguration(), "n="+n);
+            LozengePlot.saveImage(tiling.getAverageConfiguration(), "Strict n="+n);
         }
     }
 }
