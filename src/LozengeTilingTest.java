@@ -11,8 +11,8 @@ public class LozengeTilingTest {
     @Test
     public void initialConfiguration(){
         LozengePlot.saveImage(test.lattice,"initial");
-        test.changeTemperature(1000000);
-        test.metropolis(10000);
+        test.changeTemperature(1000);
+        test.metropolis(10000000);
         LozengePlot.saveImage(test.getAverageConfiguration(), "final");
     }
 
@@ -44,7 +44,7 @@ public class LozengeTilingTest {
     @Before
     public void initialize()
     {
-        test = new LozengeTiling(1,30,30);
+        test = new LozengeTiling(1,50,50);
     }
 
     @org.junit.Test
