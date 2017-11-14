@@ -19,8 +19,15 @@ public class LozengeTiling {
         return arrayToInt(averageConfiguration);
     }
 
-    public double[][] getCorrelations() {
-        return correlators;
+    public int[][] getCorrelations() {
+        int [][] t = new int[correlators.length][];
+        for (int i = 0; i < correlators.length; i++) {
+            t[i] = new int[correlators[i].length];
+            for (int j = 0; j < t.length; j++) {
+                t[i][j] = (int) (correlators[i][j]*20);
+            }
+        }
+        return t;
     }
 
     private int[][] arrayToInt(double [][] array) {
@@ -33,6 +40,11 @@ public class LozengeTiling {
         }
         return t;
 
+    }
+
+    public LozengeTiling(double weight, int n, int m, double t) {
+        this(weight, n, m);
+        this.T = t;
     }
 
     public LozengeTiling(double weight, int n, int m) {

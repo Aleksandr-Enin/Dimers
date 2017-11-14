@@ -2,6 +2,9 @@ import org.junit.Test;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 
@@ -56,5 +59,22 @@ public class MainTest {
             printWriter.close();
         }
 
+    }
+
+    public void correlator(LozengeTiling tiling) {
+        tiling.metropolis(10000000);
+        LozengePlot.saveImage(tiling.getCorrelations(), "correlators " + tiling.T);
+        LozengePlot.saveImage(tiling.getAverageConfiguration(), "averageConfiguration" + tiling.T);
+    }
+
+    @Test
+    public void showCorrelators() throws Exception {
+        LozengeTiling tiling = new LozengeTiling(1, 50, 50);
+        List<LozengeTiling> range = IntStream.range(0, 10).mapToObj(t -> new LozengeTiling(1, 50,50,1 / (0.00001 * (50 * t)))).collect(Collectors.toList());
+        range.parallelStream().forEach(this::correlator);
+        /*for (int t = 1; t < 10; t++) {
+            tiling.changeTemperature(1 / (0.00001 * (50 * t)));
+            tiling.metropolis(10000000);
+        }*/
     }
 }
