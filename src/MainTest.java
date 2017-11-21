@@ -14,23 +14,29 @@ public class MainTest {
     @Test
     public void correlators() throws Exception {
         LozengeTiling tiling = new LozengeTiling(1, 50, 50);
-        tiling.changeTemperature(20);
-        tiling.metropolis(10000000);
-        for (int i =0; i<tiling.n;i++) {
-//            for (int j =0; j<tiling.n;j++) {
-                System.out.println(Math.sqrt((i - tiling.n/2)*(i-tiling.n/2) + (i - tiling.n/2)*(i - tiling.n/2))+ " " + tiling.getCorrelations()[i][i]);
-                //System.out.println(Math.sqrt((i - tiling.n/2)*(i-tiling.n/2) + (i - tiling.n/2)*(i - tiling.n/2))+ " " + tiling.getCorrelations()[(tiling.n-1)-i][i]);
+        for (int t = 15; t< 25; t++) {
+            tiling.changeTemperature(t);
+            tiling.metropolis(10000000);
+            FileWriter fileWriter = new FileWriter("correlators/" + tiling.n + "_" + t + "_" + "Corelators.dat");
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            LozengePlot.saveImage(tiling.getAverageConfiguration(), "correlators/" + tiling.n + "_" + t + "_" + "Corelators");
+            for (int i = 0; i < tiling.n; i++) {
+                for (int j = 0; j < tiling.n; j++) {
+                    printWriter.print(tiling.getCorrelations()[i][j] + " ");
+                }
+                printWriter.println();
             }
-        LozengePlot.saveImage(tiling.getAverageConfiguration(), "lowTemperature");
+            printWriter.close();
+        }
     }
 
     @Test
     public void diagonalCorrelators() throws Exception {
-        LozengeTiling tiling = new LozengeTiling(1, 100, 100);
+        LozengeTiling tiling = new LozengeTiling(1, 50, 50);
         for (int t = 30; t< 400000; t*=10) {
             tiling.changeTemperature(t);
             tiling.metropolis(10000000);
-            FileWriter fileWriter = new FileWriter(tiling.n + "_" + t + "_" + "Diagonal.dat");
+            FileWriter fileWriter = new FileWriter("results/" + tiling.n + "_" + t + "_" + "Diagonal.dat");
             PrintWriter printWriter = new PrintWriter(fileWriter);
             for (int i = 0; i < tiling.n;i++)
             {
@@ -43,12 +49,12 @@ public class MainTest {
     @Test
     public void correlatorsLength() throws Exception {
         LozengeTiling tiling = new LozengeTiling(1,50,50);
-        for (int t = 1; t< 10; t++) {
-            tiling.changeTemperature(1/(0.00001*(50*t)));
-            tiling.metropolis(10000000);
-            FileWriter fileWriter = new FileWriter(tiling.n + "_" + 1/(0.00001*(50*t)) + "_" + "Length.dat");
+        for (int t = 15; t< 25; t++) {
+            tiling.changeTemperature(t);
+            tiling.metropolis(1000000);
+            FileWriter fileWriter = new FileWriter("results/" + tiling.n + "_" + t + "_" + "Length.dat");
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            LozengePlot.saveImage(tiling.getAverageConfiguration(), tiling.n + "_" + 1/(0.00001*(50*t)) + "_" + "Length");
+            LozengePlot.saveImage(tiling.getAverageConfiguration(), "results/" + tiling.n + "_" + t + "_" + "Length");
             for (int i = 0; i < tiling.n;i++)
             {
                 printWriter.println(((i - tiling.n/2)*(i-tiling.n/2) + (i - tiling.n/2)*(i - tiling.n/2))+ " " + tiling.getCorrelations()[i][i]);

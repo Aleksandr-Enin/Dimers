@@ -87,7 +87,7 @@ public class LozengeTiling {
             heightDifference = (random.nextBoolean() ? 1 : -1);
             i = random.nextInt(n);
             j = random.nextInt(m);
-        } while (!isCorrectChange(i,j,heightDifference));
+        } while (!isNewCorrectChange(i,j,heightDifference));
         if (random.nextDouble() < Math.exp(heightDifference/T)) {
             lattice[i][j]+= heightDifference;
         }
@@ -96,6 +96,14 @@ public class LozengeTiling {
     private boolean isCorrectChange(int i, int j, int heightDifference) {
         if ((i==0 && j==0) || (i ==n-1 && j==n-1)) return false;
         if (((i == n-1 && j==0) || (i==0 && j==n-1) && (lattice[i][j]+heightDifference ==n || lattice[i][j] + heightDifference == 0) )) return false;
+        if ((j < n - 1 && lattice[i][j] + heightDifference > lattice[i][j + 1]) || (i < n - 1 && lattice[i][j] + heightDifference > lattice[i + 1][j]) || lattice[i][j] + heightDifference< 0) return false;
+        if ((j > 0 && lattice[i][j] + heightDifference < lattice[i][j - 1]) || (i > 0 && lattice[i][j] + heightDifference < lattice[i - 1][j]) || lattice[i][j] +heightDifference < 0) return false;
+        return true;
+    }
+
+    private boolean isNewCorrectChange(int i, int j, int heightDifference) {
+        if (lattice[i][j]+heightDifference < 0 || lattice[i][j] + heightDifference > n) return false;
+        //if (((i == n-1 && j==0) || (i==0 && j==n-1) && (lattice[i][j]+heightDifference ==n || lattice[i][j] + heightDifference == 0) )) return false;
         if ((j < n - 1 && lattice[i][j] + heightDifference > lattice[i][j + 1]) || (i < n - 1 && lattice[i][j] + heightDifference > lattice[i + 1][j]) || lattice[i][j] + heightDifference< 0) return false;
         if ((j > 0 && lattice[i][j] + heightDifference < lattice[i][j - 1]) || (i > 0 && lattice[i][j] + heightDifference < lattice[i - 1][j]) || lattice[i][j] +heightDifference < 0) return false;
         return true;
@@ -111,7 +119,7 @@ public class LozengeTiling {
                 height += lattice[i][j];
                 heightSquared += lattice[i][j]*lattice[i][j];
                 averageConfiguration[i][j] += lattice[i][j];
-                correlators[i][j] += lattice[n/2][n/2]*lattice[i][j];
+                correlators[i][j] += lattice[i][j]*lattice[i][j];
             }
         //    System.out.println();
         }
@@ -175,7 +183,7 @@ public class LozengeTiling {
         for (int i =0; i< n; i++) {
             for (int j =0; j< n; j++) {
                 correlators[i][j] /= iterations;
-                correlators[i][j] -= averageConfiguration[i][j]*averageConfiguration[n/2][n/2];
+                correlators[i][j] -= averageConfiguration[i][j]*averageConfiguration[i][j];
             }
         }
     }

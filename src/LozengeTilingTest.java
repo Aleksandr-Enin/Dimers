@@ -12,7 +12,7 @@ public class LozengeTilingTest {
     public void initialConfiguration(){
         LozengePlot.saveImage(test.lattice,"initial");
         test.changeTemperature(1000);
-        test.metropolis(10000000);
+        test.metropolis(100000);
         LozengePlot.saveImage(test.getAverageConfiguration(), "final");
     }
 
